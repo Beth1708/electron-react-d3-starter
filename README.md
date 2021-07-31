@@ -1,11 +1,16 @@
-# Create React App with Electron Forge Demo
+# Sample electron & react app based on:
+### -> Create React App with Electron Forge Demo
+See https://github.com/mandiwise/cra-electron-forge-demo
 
-**Installation:**
+- Included features
+  - Read/write files from the react process
+  - Collect data from a form
+  - Send messages to the electron process and to a second winow
+  - Store data in local storage (electron store)
+  - Show a d3 plot from a local csv file
 
-```sh
-npm i && npm run dev
-```
+Other interesting things:
 
-**Tutorial:**
+Electron-store: https://github.com/sindresorhus/electron-store
 
-[Read the full tutorial on dev.to here](https://dev.to/mandiwise/electron-apps-made-easy-with-create-react-app-and-electron-forge-560e) 👩‍💻
+Debounce to wait on text input: https://www.npmjs.com/package/use-debounce
