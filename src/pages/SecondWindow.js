@@ -1,10 +1,11 @@
 import React from "react";
+import D3Plot from "./D3Plot";
 
 const SecondWindow = () => {
 
     return (
         <div>
-            Second window
+            <D3Plot />
         </div>
     )
 }

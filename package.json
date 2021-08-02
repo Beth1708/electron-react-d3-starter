@@ -15,6 +15,8 @@
     "electron-is-dev": "^1.2.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.0.0",
+    "papaparse": "^5.3.1",
+    "raw.macro": "^0.4.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^7.12.1",
