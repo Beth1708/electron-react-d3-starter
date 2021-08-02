@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 
 import {useForm} from "react-hook-form";
-// import {Box, Grid, IconButton, Button, Paper, Tooltip, Typography} from "@material-ui/core";
+import {Box, Grid, IconButton, Button, Paper, Tooltip, Typography} from "@material-ui/core";
+import dayjs from "dayjs";
 
 const MainWindow = () => {
 
@@ -51,6 +52,7 @@ const MainWindow = () => {
             alert('Got message: ' + args['messageType']);
         }
     ));
+
     const sendToSecondWindow = () => {
         const args = {messageType: ipcConstants.TO_SECOND_WINDOW};
         ipcRenderer.send(ipcConstants.TO_SECOND_WINDOW, args);
@@ -60,81 +62,96 @@ const MainWindow = () => {
         ipcRenderer.send(ipcConstants.OPEN_SECOND_WINDOW);
     };
 
+    const storeDate = () => {
+        const nowStr = dayjs().format('YYYY-MM-DDTHH:mm:ssZ[Z]');
+        ipcRenderer.invoke(ipcConstants.SET_STORE_VAL, ipcConstants.STORED_DATE, nowStr);
+        alert('Stored the date: ' + nowStr);
+    };
+
+    const getDate = async () => {
+        const date = await ipcRenderer.invoke(ipcConstants.GET_STORE_VAL, ipcConstants.STORED_DATE);
+        alert('retrieved date is ' + date);
+    };
+
     return (
-        <div>
-            <form onSubmit={handleSubmitWrite(onSubmitWrite)}>
-                <label htmlFor="outputDir">Output location:</label>
-                <input size="100"  {...registerWrite("outputDir")} />
-                <button type="submit">Write file</button>
-            </form>
-            <form onSubmit={handleSubmitRead(onSubmitRead)}>
-                <label htmlFor="fileToRead">File to read:</label>
-                <input size="100"  {...registerRead("fileToRead")} />
-                <button type="submit">Read file</button>
-            </form>
-            <button onClick={showSecondWindow}>Show second window</button>
-            <button onClick={sendToSecondWindow}>Send message to second window</button>
-        </div>
+        // <div>
+        //     <form onSubmit={handleSubmitWrite(onSubmitWrite)}>
+        //         <label htmlFor="outputDir">Output location:</label>
+        //         <input size="100"  {...registerWrite("outputDir")} />
+        //         <button type="submit">Write file</button>
+        //     </form>
+        //     <form onSubmit={handleSubmitRead(onSubmitRead)}>
+        //         <label htmlFor="fileToRead">File to read:</label>
+        //         <input size="100"  {...registerRead("fileToRead")} />
+        //         <button type="submit">Read file</button>
+        //     </form>
+        //     <button onClick={showSecondWindow}>Show second window</button>
+        //     <button onClick={sendToSecondWindow}>Send message to second window</button>
+        // </div>
 
 
-        // <Grid container>
-        //     <Grid item>
-        //         <form onSubmit={handleSubmitWrite(onSubmitWrite)}>
-        //             <Box border={1}>
-        //                 <Grid container>
-        //                     <Grid item>
-        //                         <Paper>
-        //                             <Box>
-        //                                 <Typography variant={"body1"}>
-        //                                     <label htmlFor="outputDir">Output location:</label>
-        //                                 </Typography>
-        //                             </Box>
-        //                         </Paper>
-        //                     </Grid>
-        //                     <Grid item>
-        //                         <Paper>
-        //                             <Box>
-        //                                 <Typography variant={"body1"}>
-        //                                     <input size="100"  {...registerWrite("outputDir")} />
-        //                                 </Typography>
-        //                             </Box>
-        //                         </Paper>
-        //                     </Grid>
-        //                 </Grid>
-        //             </Box>
-        //         </form>
-        //     </Grid>
-        //     <Grid item>
-        //         <form onSubmit={handleSubmitRead(onSubmitRead)}>
-        //             <Box border={1}>
-        //                 <Grid container>
-        //                     <Grid item>
-        //                         <Paper>
-        //                             <Box>
-        //                                 <Typography variant={"body1"}>
-        //                                     <label htmlFor="fileToRead">File to read:</label>
-        //                                 </Typography>
-        //                             </Box>
-        //                         </Paper>
-        //                     </Grid>
-        //                     <Grid item>
-        //                         <Paper>
-        //                             <Box>
-        //                                 <Typography variant={"body1"}>
-        //                                     <input size="100"  {...registerRead("fileToRead")} />
-        //                                 </Typography>
-        //                             </Box>
-        //                         </Paper>
-        //                     </Grid>
-        //                 </Grid>
-        //             </Box>
-        //         </form>
-        //     </Grid>
-        //     <Grid item>
-        //         <Button variant='outlined' size='small' onClick={showSecondWindow}>Show second window</Button>
-        //
-        //     </Grid>
-        // </Grid>
+        <Grid container>
+            <Grid item>
+                <form onSubmit={handleSubmitWrite(onSubmitWrite)}>
+                    <Box border={1}>
+                        <Grid container>
+                            <Grid item>
+                                <Paper>
+                                    <Box>
+                                        <Typography variant={"body1"}>
+                                            <label htmlFor="outputDir">Output location:</label>
+                                        </Typography>
+                                    </Box>
+                                </Paper>
+                            </Grid>
+                            <Grid item>
+                                <Paper>
+                                    <Box>
+                                        <Typography variant={"body1"}>
+                                            <input size="100"  {...registerWrite("outputDir")} />
+                                        </Typography>
+                                    </Box>
+                                </Paper>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </form>
+            </Grid>
+            <Grid item>
+                <form onSubmit={handleSubmitRead(onSubmitRead)}>
+                    <Box border={1}>
+                        <Grid container>
+                            <Grid item>
+                                <Paper>
+                                    <Box>
+                                        <Typography variant={"body1"}>
+                                            <label htmlFor="fileToRead">File to read:</label>
+                                        </Typography>
+                                    </Box>
+                                </Paper>
+                            </Grid>
+                            <Grid item>
+                                <Paper>
+                                    <Box>
+                                        <Typography variant={"body1"}>
+                                            <input size="100"  {...registerRead("fileToRead")} />
+                                        </Typography>
+                                    </Box>
+                                </Paper>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </form>
+            </Grid>
+            <Grid item>
+                <Button variant='outlined' size='small' onClick={showSecondWindow}>Show second window</Button>
+                <Button variant='outlined' size='small' onClick={sendToSecondWindow}>Send message to second window</Button>
+            </Grid>
+            <Grid item>
+                <Button variant='outlined' size='small' onClick={storeDate}>Store date</Button>
+                <Button variant='outlined' size='small' onClick={getDate}>Get stored date</Button>
+            </Grid>
+        </Grid>
     )
 }
 

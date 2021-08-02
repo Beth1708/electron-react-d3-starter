@@ -3,7 +3,11 @@ const path = require("path");
 const {app, BrowserWindow, ipcMain} = require("electron");
 const isDev = require("electron-is-dev");
 
+const Store = require('electron-store');
+
 const {ipcConstants} = require(path.join(app.getAppPath(), './src/utils/IpcConstants.js'));
+
+const store = new Store();
 
 // Conditionally include the dev tools installer to load React Dev Tools
 let installExtension, REACT_DEVELOPER_TOOLS;
@@ -84,6 +88,15 @@ ipcMain.on(ipcConstants.TO_MAIN_WINDOW, (event, args) => {
 ipcMain.on(ipcConstants.TO_SECOND_WINDOW, (event, args) => {
     // console.log('message type is ' + args['messageType']);
     secondWindow.webContents.send(args['messageType'], args);
+});
+
+ipcMain.handle(ipcConstants.GET_STORE_VAL, (event, key) => {
+    // console.log('in getStoreValue, key is ' + key);
+    return store.get(key);
+});
+
+ipcMain.handle(ipcConstants.SET_STORE_VAL, (event, key, value) => {
+    store.set(key, value);
 });
 
 const makeSecondWindow = () => {
