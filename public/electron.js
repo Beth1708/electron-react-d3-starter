@@ -76,6 +76,15 @@ app.on("activate", () => {
     }
 });
 
+ipcMain.on(ipcConstants.TO_MAIN_WINDOW, (event, args) => {
+    // console.log('message type is ' + args['messageType']);
+    mainWindow.webContents.send(args['messageType'], args);
+});
+
+ipcMain.on(ipcConstants.TO_SECOND_WINDOW, (event, args) => {
+    // console.log('message type is ' + args['messageType']);
+    secondWindow.webContents.send(args['messageType'], args);
+});
 
 const makeSecondWindow = () => {
   secondWindow = new BrowserWindow({

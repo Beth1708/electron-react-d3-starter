@@ -47,7 +47,18 @@ const MainWindow = () => {
         alert(contents);
     }
 
-    const showSecondWindow = () => {};
+    ipcRenderer.on(ipcConstants.TO_MAIN_WINDOW, ((event, args) => {
+            alert('Got message: ' + args['messageType']);
+        }
+    ));
+    const sendToSecondWindow = () => {
+        const args = {messageType: ipcConstants.TO_SECOND_WINDOW};
+        ipcRenderer.send(ipcConstants.TO_SECOND_WINDOW, args);
+    };
+
+    const showSecondWindow = () => {
+        ipcRenderer.send(ipcConstants.OPEN_SECOND_WINDOW);
+    };
 
     return (
         <div>
@@ -62,6 +73,7 @@ const MainWindow = () => {
                 <button type="submit">Read file</button>
             </form>
             <button onClick={showSecondWindow}>Show second window</button>
+            <button onClick={sendToSecondWindow}>Send message to second window</button>
         </div>
 
 
